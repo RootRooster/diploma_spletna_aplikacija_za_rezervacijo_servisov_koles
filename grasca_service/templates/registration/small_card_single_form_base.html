@@ -1,0 +1,15 @@
+{% extends "single_form_base.html" %}
+{% load static %}
+{% load i18n %}
+{% load crispy_forms_tags %}
+{% block custom_card %}
+<div class="card mx-auto" style="max-width: 30rem">
+    <div class="card-custom-header text-center pt-2 ">
+        {% block card_title %}
+        {% endblock card_title %}
+    </div>
+    <div class="card-body">
+        {% crispy form %}
+    </div>
+</div>
+{% endblock %}

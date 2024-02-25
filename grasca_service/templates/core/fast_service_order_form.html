@@ -1,0 +1,37 @@
+{% extends "single_form_base.html" %}
+
+{% load i18n %}
+{% block card_title %}
+    {% trans "Hitri termin" %}
+{% endblock %}
+{% block scripts %}
+    {{ block.super }}
+    <script>
+        if (! $("#id_user").val()) {
+            $("#id_bike").prop("disabled", true);
+        }
+        $("#id_user").on("change", function () {
+            var userId = this.value
+            if (userId) {
+                $("#id_bike").prop("disabled", false);
+                $.ajax({
+                    url: "{% url 'api:api_bike_list' %}",
+                    data: {
+                        user: userId
+                    },
+                    success: function (data) {
+                        var bikes = data.bikes;
+                        $("#id_bike").empty();
+                        $("#id_bike").append($('<option>').val('').text('---------'));
+                        bikes.forEach(function (bike) {
+                            var option = $('<option>').val(bike.id).text(bike.brand + ' ' + bike.model + ' ' + bike.year);
+                                $("#id_bike").append(option);
+                        });
+                    }
+                });
+            } else {
+                $("#id_bike").prop("disabled", true);
+            }
+        });
+    </script>
+{% endblock %}

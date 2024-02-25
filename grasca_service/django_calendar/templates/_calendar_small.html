@@ -1,0 +1,71 @@
+{% load i18n %}
+{% load static %}
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th colspan="7" class="text-center">{{ calendar_data.month.0 }} {{ calendar_data.year }}</th>
+    </tr>
+    <tr>
+      <th colspan="7" class="text-center">
+      <div class="btn-group" role="group">
+        <button type="button" class="btn btn-dark" hx-get="{% url "api:django_calendar:get_previous_month_small" %}?month={{month}}&year={{year}}" hx-target="#calendar-table"><i class="fas fa-arrow-left"></i></button>
+        <button type="button" class="btn btn-dark" hx-get="{% url "api:django_calendar:get_current_month_small" %}" hx-target="#calendar-table">{% trans 'Danes' %}</button>
+        <button type="button" class="btn btn-dark" hx-get="{% url "api:django_calendar:get_next_month_small" %}?month={{month}}&year={{year}}" hx-target="#calendar-table"><i class="fas fa-arrow-right"></i></button>
+      </div> 
+    </th>
+    </tr>
+    <tr>
+      <th>
+        {% trans 'Pon' %}
+      </th>
+      <th>
+        {% trans 'Tor' %}
+      </th>
+      <th>
+        {% trans 'Sre' %}
+      </th>
+      <th>
+        {% trans 'Čet' %}
+      </th>
+      <th>
+        {% trans 'Pet' %}
+      </th>
+      <th>
+        {% trans 'Sob' %}
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for weeks in calendar_data.weeks %}
+      <tr>
+        {% for day in weeks %}
+        {% if not forloop.last %}
+          <td>
+            {% if day %}
+              {% if day.is_today %}
+                <div>
+                  <span class="badge bg-danger rounded-circle">{{ day.day }}</span>
+                </div>
+              {% else %}
+                <div>
+                  <span>{{ day.day }}</span>
+                </div>
+              {% endif %}
+              {% if day.events.0|length > 0 %}
+              <div class="background-blue rounded d-flex justify-content-center" onclick="setOptionValue('{{day.events.0.0.id}}')">{% trans "Prosti termini!" %} ({{day.events.0|length}})</div>
+              {% endif %}
+            {% else %}
+              <div></div>
+            {% endif %}
+          </td>
+        {% endif %}
+        {% endfor %}
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+<script>
+  function setOptionValue(value) {
+    document.getElementById('id_online_appointment').value = value;
+  }
+</script>

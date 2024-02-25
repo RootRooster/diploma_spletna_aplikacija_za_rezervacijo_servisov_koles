@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% load i18n %}
+{% load crispy_forms_tags %}
+
+{% block navbar_elements %}
+<p class="nav-link px-3">{% trans "Pozdravljen," %} {{request.user.first_name}}!</p>
+<a class="nav-link px-3" href="{% url "registration:logout" %}">{% trans "Odjava" %}</a>
+{% endblock %}
+
+
+{% block content %}
+
+<div class="container ">
+    <div class="row">
+        {% for service_order in object_list %}
+            <div class="card mb-3 {{service_order.event_status_urgency}}">
+                <div class="card-header">{{ service_order.date.day }}. {{ service_order.date.month }}. {{ service_order.date.year }}</div>
+                <div class="card-body">
+                {% if service_order.service_type %}<p class="card-text">{% trans "Številka tip servisa:" %} {{service_order.get_service_type_display}}</p>{% endif %}
+                {% if service_order.status %}<p class="card-text">{% trans "Status servisa:" %} {{service_order.get_status_display}}</p>{% endif %}
+                <a href="{{service_order.get_details_url}}" class="btn btn-primary text-white">{% trans "Podrobnosti" %}</a>
+
+                </div>
+            </div>
+        {% empty %}
+            {% trans "Kolo še ni bilo na servisu" %}
+        {% endfor %}
+    </div>
+    <div class="row mb-5">
+        <a href="{% url "core:fast_service_order_reservation" bike_id  %}" class="btn btn-violet text-white ">{% trans "Naroči kolo na nov termin" %}</a>
+    </div>
+</div>
+{% endblock %}

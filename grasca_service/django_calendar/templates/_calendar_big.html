@@ -1,0 +1,98 @@
+{% load i18n %}
+{% load static %}
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th colspan="6" class="text-center">{{ calendar_data.month.0 }} {{ calendar_data.year }}</th>
+      <th colspan="1" class="text-center">
+        <div class="btn-group" role="group">
+          <button type="button" class="btn btn-dark" hx-get="{% url 'api:django_calendar:get_previous_month_big' %}?month={{ month }}&year={{ year }}" hx-target="#calendar-table"><i class="fas fa-arrow-left"></i></button>
+          <button type="button" class="btn btn-dark" hx-get="{% url 'api:django_calendar:get_current_month_big' %}" hx-target="#calendar-table">{% trans 'Danes' %}</button>
+          <button type="button" class="btn btn-dark" hx-get="{% url 'api:django_calendar:get_next_month_big' %}?month={{ month }}&year={{ year }}" hx-target="#calendar-table"><i class="fas fa-arrow-right"></i></button>
+        </div>
+      </th>
+    </tr>
+    <tr>
+      <th>
+        {% trans 'Ponedeljek' %}
+      </th>
+      <th>
+        {% trans 'Torek' %}
+      </th>
+      <th>
+        {% trans 'Sreda' %}
+      </th>
+      <th>
+        {% trans 'Četrtek' %}
+      </th>
+      <th>
+        {% trans 'Petek' %}
+      </th>
+      <th>
+        {% trans 'Sobota' %}
+      </th>
+      <th>
+        {% trans 'Nedelja' %}
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for weeks in calendar_data.weeks %}
+      <tr>
+        {% for day in weeks %}
+          <td>
+            {% if day %}
+              <div>
+                {% if day.is_today %}
+                  <span class="badge bg-danger rounded-circle">{{ day.day }}</span>
+                {% else %}
+                  <span>{{ day.day }}</span>
+                {% endif %}
+                {% if not forloop.last %}
+                  <div class="btn-group">
+                    <button class="btn btn-white btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"></button>
+                    <ul class="dropdown-menu">
+                      <li>
+                        <a class="dropdown-item" href="{% url 'core:create_new_manual_service_order' %}?month={{ month }}&year={{ year }}&day={{ day.day }}">{% trans 'Dodaj nov sprejem' %}</a>
+                      </li>
+                      <li>
+                        <a class="dropdown-item" href="{% url 'core:create_new_fast_service_order' %}?month={{ month }}&year={{ year }}&day={{ day.day }}">{% trans 'Dodaj nov sprejem (uporabniški račun)' %}</a>
+                      </li>
+                      <li>
+                        <button class="dropdown-item" hx-get="{% url 'api:create_new_free_appointment' %}?month={{ month }}&year={{ year }}&day={{ day.day }}&vip=0" hx-target="#calendar-table">{% trans 'Dodaj novo prosto mesto' %}</button>
+                      </li>
+                      <li>
+                        <button class="dropdown-item" hx-get="{% url 'api:create_new_free_appointment' %}?month={{ month }}&year={{ year }}&day={{ day.day }}&vip=1" hx-target="#calendar-table">{% trans 'Dodaj novo prosto mesto VIP' %}</button>
+                      </li>
+                    </ul>
+                  </div>
+                {% endif %}
+              </div>
+              <div class="scrollable-div" style="height: 4rem; overflow: auto;">
+                {% for events in day.events %}
+                  {% if forloop.first %}
+                    {% for event in events %}
+                      <div class="rounded mb-1 background-{{ event.event_color }}">
+                        {% trans 'Prosto mesto' %}
+                      </div>
+                    {% endfor %}
+                  {% else %}
+                    {% for event in events %}
+                      <a href="{{ event.get_update_url }}" style="text-decoration: none; color: black;">
+                        <div class="rounded mb-1 background-{{ event.event_color }}">
+                          {{ event }}
+                        </div>
+                      </a>
+                    {% endfor %}
+                  {% endif %}
+                {% endfor %}
+              </div>
+            {% else %}
+              <div></div>
+            {% endif %}
+          </td>
+        {% endfor %}
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>

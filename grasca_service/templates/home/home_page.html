@@ -1,0 +1,143 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% load i18n %}
+{% load crispy_forms_tags %}
+{% block navbar_elements %}
+  <a class="nav-link px-3" href="#calendar-table">{% trans "Koledar" %}</a>
+  <a class="nav-link px-3" href="#quick-service">{% trans "Hitri servis" %}</a>
+  <a class="nav-link px-3" href="{% url "registration:login" %}">{% trans "Prijava" %}</a>
+{% endblock navbar_elements %}
+{% block content %}
+<div class="title-background d-flex align-items-center justify-content-center" style="background-image: url({% static "/images/fixingbike1.png" %})">
+    <div class="container">
+        <div class="title">{% trans "Servisi koles" %}</div>
+        <div class="subtitle">{% trans "Najboljši servis koles v Sloveniji sedaj omogoča prijavo preko spleta!" %}</div>
+    </div>
+</div>
+{% comment %} CODE IN THE INSTRUCTIONS {% endcomment %}
+<h1 class="mb-4 display-5 text-center text-center py-4">{% trans "Potek servisa" %}</h1>
+<hr class="w-50 mx-auto mb-5 mb-xl-9 border-dark-subtle">
+<div class="container">
+    <div class="row">
+        <div class="col-12 col-md-6 mb-4 d-flex justify-content-center">
+            {% include 'components/_instruction_card.html' with card_icon=instructions.0.icon card_header=instructions.0.heading card_text=instructions.0.text card_id='card1' %}
+        </div>
+        <div class="col-12 col-md-6 mb-4 d-flex justify-content-center">
+            {% include 'components/_instruction_card.html' with card_icon=instructions.1.icon card_header=instructions.1.heading card_text=instructions.1.text card_id='card2' %}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 col-md-6 mb-4 d-flex justify-content-center">
+            {% include 'components/_instruction_card.html' with card_icon=instructions.2.icon card_header=instructions.2.heading card_text=instructions.2.text card_id='card3' %}
+        </div>
+        <div class="col-12 col-md-6 mb-4 d-flex justify-content-center">
+            {% include 'components/_instruction_card.html' with card_icon=instructions.3.icon card_header=instructions.3.heading card_text=instructions.3.text card_id='card4' %}
+        </div>
+    </div>
+</div>
+{% comment %} CODE IN THE FAQ {% endcomment %}
+<h2 class="mb-4 display-5 text-center text-center py-4">{% trans "Pogosta vprašanja" %}</h2>
+<hr class="w-50 mx-auto mb-5 mb-xl-9 border-dark-subtle">
+<div class="container">
+    <div class="accordion" id="faq-accordion">
+        {% for faq in faq_data %}
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button{% if forloop.counter != 1 %} collapsed{% endif %}" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-{{forloop.counter}}" aria-expanded="{% if forloop.counter == 1 %}true{% else %}false{% endif %}" aria-controls="collapse-{{forloop.counter}}">
+                    {{faq.question}}
+                </button>
+            </h2>
+            <div id="collapse-{{forloop.counter}}" class="accordion-collapse collapse {% if forloop.counter == 1 %}show{% endif %}" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    {{faq.answer}}
+                </div>
+            </div>
+        </div>
+        {% endfor %}    
+    </div>
+</div>
+{% comment %} CODE IN THE PRESENTATION {% endcomment %}
+<section class="py-3 py-md-5 py-xl-8">
+    <div class="container">
+      <div class="row justify-content-md-center">
+        <div class="col-12 col-md-10 col-lg-8 col-xl-7 col-xxl-6">
+          <h2 class="mb-4 display-5 text-center">{% trans "Naša ekipa" %}</h2>
+          <p class="text-secondary mb-5 text-center lead fs-4">{% trans "Vaše kolo v najboljših rokah: Naša izkušena ekipa zagotavlja vrhunsko servisiranje in popravilo. Z nami bo vaša kolesarska izkušnja vedno brezhibna in varna!" %}</p>
+          <hr class="w-50 mx-auto mb-5 mb-xl-9 border-dark-subtle">
+        </div>
+      </div>
+    </div>
+  
+    <div class="container overflow-hidden">
+      <div class="row gy-4 gy-lg-0 gx-xxl-5">
+        <div class="col-12 col-md-6 col-lg-3">
+          <div class="card border-0 border-bottom border-primary shadow-sm overflow-hidden">
+            <div class="card-body p-0">
+              <figure class="m-0 p-0">
+                <img class="img-fluid" loading="lazy" src="{% static '/images/tadej2.jpeg' %}" alt="">
+                <figcaption class="m-0 p-4">
+                  <h4 class="mb-1">Tadej Šenk</h4>
+                  <p class="text-secondary mb-0">Šenkozaver</p>
+                </figcaption>
+              </figure>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-md-6 col-lg-3">
+          <div class="card border-0 border-bottom border-primary shadow-sm overflow-hidden">
+            <div class="card-body p-0">
+              <figure class="m-0 p-0">
+                <img class="img-fluid" loading="lazy" src="{% static '/images/andrej.jpeg' %}" alt="">
+                <figcaption class="m-0 p-4">
+                  <h4 class="mb-1">Andej Jezeršek</h4>
+                  <p class="text-secondary mb-0">Šefe</p>
+                </figcaption>
+              </figure>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-md-6 col-lg-3">
+          <div class="card border-0 border-bottom border-primary shadow-sm overflow-hidden">
+            <div class="card-body p-0">
+              <figure class="m-0 p-0">
+                <img class="img-fluid" loading="lazy" src="{% static '/images/berto.jpeg' %}" alt="">
+                <figcaption class="m-0 p-4">
+                  <h4 class="mb-1">Igor Bertoncelj</h4>
+                  <p class="text-secondary mb-0">Berto</p>
+                </figcaption>
+              </figure>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-md-6 col-lg-3">
+          <div class="card border-0 border-bottom border-primary shadow-sm overflow-hidden">
+            <div class="card-body p-0">
+              <figure class="m-0 p-0">
+                <img class="img-fluid" loading="lazy" src="{% static '/images/matej.jpeg' %}" alt="">
+                <figcaption class="m-0 p-4">
+                  <h4 class="mb-1">Tomaž Ramovš</h4>
+                  <p class="text-secondary mb-0">Tomo</p>
+                </figcaption>
+              </figure>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+{% comment %} CODE IN THE calendar {% endcomment %}
+<h1 class="text-center py-4">{% trans "Koledar" %}</h1>
+<div class="container" id="calendar-table">
+    {% include "_calendar_small.html" %}
+</div>
+{% comment %} CODE IN THE QUICK SERVICE FORM {% endcomment %}
+<h1 class="text-center py-4" id="quick-service">{% trans "Hitri servis" %}</h1>
+<div class="container mb-4">
+    <div class="row d-flex justify-content-center mx-2">
+        <div class="col-12 col-md-6 border rounded p-5 ">
+            {% crispy form form.helper %}
+        </div>
+    </div>
+</div>
+{% endblock content %}

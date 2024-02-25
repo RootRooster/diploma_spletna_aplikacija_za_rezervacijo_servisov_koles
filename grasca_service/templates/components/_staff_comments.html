@@ -1,0 +1,8 @@
+{% load static %}
+{% load i18n %}
+{% for comment in comments %}
+    <div class="bg-primary rounded me-5 mt-2 ms-3 text-white p-2">
+        <p class="p-0 m-0 text-xs" style="font-size: 75%;"><em>{{comment}}</em></p>
+        <p class="p-0 m-0">{{comment.comment}}</p>
+    </div>
+{% endfor %}

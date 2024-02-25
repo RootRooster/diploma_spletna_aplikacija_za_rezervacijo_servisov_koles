@@ -1,0 +1,139 @@
+{% load i18n %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, maximum-scale=1, user-scalable=no">
+    <title>
+        {% block title %}
+            {% trans "Grasca Servis" %}
+        {% endblock title %}
+    </title>
+    {% block links %}
+    <link rel="shortcut icon" type="image/png" href="{% static 'favicon.ico' %}" >
+    <!-- Include Font Awesome font-awesome/5.15.1 -->
+    <script src="{% static 'fontawesomefree/js/all.min.js' %}"></script>
+    <!-- Include Bootstrap CSS 5.3.2 -->
+    <link rel="stylesheet" href="{% static 'css/lib/bootstrap.min.css' %}">
+    <!-- Include Toastr CSS 2.1.4 -->
+    <link rel="stylesheet" href="{% static 'css/lib/toastr.min.css' %}">
+    <!-- Include select2 4.1.0 -->
+    <link rel="stylesheet" href="{% static "css/lib/select2.min.css" %}">
+    <!-- Include my base css file -->
+    <link rel="stylesheet" href="{% static "css/base.css" %}">
+    {% endblock links %}
+
+</head>
+<body class="bg-light">
+    {% block navbar %}
+        <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
+            <a class="navbar-brand px-4 pt-2 " href="{% url "home:home_page" %}">
+                {% block logo %}
+                    <img src="{% static "logo/grasca_logo2.png" %}" alt="Logo" style="height:40px;">
+                {% endblock logo %}
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-lg-auto w-100">
+                    {% block navbar_outer %}
+                    <li class="nav-item d-lg-flex justify-content-end w-100">
+                        {% block navbar_elements %}
+                        {% endblock navbar_elements %}
+                    </li>
+                    {% endblock navbar_outer %}
+                </ul>
+            </div>
+        </nav>
+    {% endblock navbar %}
+    
+    {% block content %}
+    {% endblock content %}
+    {% block scripts %}
+        <!-- Bootstrap v5.3.2 -->
+        <script src="{% static 'js/lib/bootstrap.bundle.min.js' %}"></script>
+        <!-- jQuery v3.5.1 -->
+        <script src="{% static 'js/lib/jquery.min.js' %}"></script>
+        <!-- Popper JS -->
+        <script src="{% static 'js/lib/popper.min.js' %}"></script>
+        <!-- Include Toastr.js -->
+        <script src="{% static 'js/lib/toastr.min.js' %}"></script>
+        <!-- Include HTMX JS -->
+        <script src="{% static 'js/lib/htmx.min.js' %}"></script>
+        <!-- Include select2 4.1.0 -->
+        <script src="{% static 'js/lib/select2.min.js' %}"></script>
+
+        {% if messages %}
+        {% for message in messages %}
+            {% if message.tags == 'success'%}
+                <script type=text/javascript>toastr.{{ message.tags }}('{{ message }}')</script>
+            {% elif message.tags == 'info' %}
+                <script type=text/javascript>toastr.{{ message.tags }}('{{ message }}')</script>
+            {% elif message.tags == 'warning' %}
+                <script type=text/javascript>toastr.{{ message.tags }}('{{ message }}')</script>
+            {% elif message.tags == 'error' %}
+                <script type=text/javascript>toastr.{{ message.tags }}('{{ message }}')</script>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+    {% endblock scripts %}
+    {% block footer %}
+    <footer class="bg-dark mt-auto">
+        <div class="d-flex justify-content-center pt-3 " style="height: 5rem;">
+            <img class="center-block" type="image/png" src="{% static "logo/scott_logo_white.png" %}" alt="">
+        </div>
+        <div class="container text-white">
+            <div class="row mt-3">
+                <div class="col-6 text-center">
+                    <p class="font-weight-bold text-uppercase">{% trans "Sledite nam:" %}</p>
+                </div>
+                <div class="col-6 text-center">
+                    <p class="font-weight-bold text-uppercase">{% trans "Kontakti:" %}</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6 text-center">
+                    <a href="https://www.facebook.com/trgovinagrasca/" class="social-icon">
+                        <i class="fab fa-facebook-f"></i> Facebook
+                    </a>
+                </div>
+                <div class="col-6 text-center ">
+                    <a href="tel:+38645956010" class="social-icon">
+                        <i class="fa fa-phone"></i> {% trans "Trgovina:" %} 045956010
+                    </a>
+                </div>
+            </div>
+            <div class="row mt-1">
+                <div class="col-6 text-center">
+                    <a href="https://www.instagram.com/grasca.team/" class="social-icon">
+                        <i class="fab fa-instagram"></i> Instagram
+                    </a>
+                </div>
+                <div class="col-6 text-center">
+                    <a href="tel:+38645956010" class="social-icon">
+                        <i class="fa fa-phone"></i> {% trans "Servis:" %} 045956014
+                    </a>
+                </div>
+            </div>
+            <div class="row mt-1 pb-4">
+                <div class="col-6 text-center">
+                    <a href="https://https://www.grasca.si/" class="social-icon">
+                        <i class="fas fa-globe"></i> Grasca.si
+                    </a>
+                </div>
+                <div class="col-6 text-center">
+                    <a href="mailto:etrgovina@grasca.si"  class="social-icon">
+                        <i class="fas fa-envelope"></i> etrgovina@grasca.si
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    {% endblock footer %}
+</body>
+</html>

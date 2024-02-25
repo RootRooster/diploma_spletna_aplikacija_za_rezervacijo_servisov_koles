@@ -1,0 +1,14 @@
+{% load i18n %}
+<div class="card mb-3" style="background-color: {{task.event_color}}">
+    <div class="card-header text-white"><a href="{{task.get_details_url}}">{{ task }}</a></div>
+    <div class="card-body">
+      {% if task.service_number %}<p class="card-text text-white">{% trans "Številka servisa:" %} {{task.service_number}}</p>{% endif %}
+      {% if task.service_type %}<p class="card-text text-white">{% trans "Številka tip servisa:" %} {{task.get_service_type_display}}</p>{% endif %}
+      {% if task.status %}<p class="card-text text-white">{% trans "Status servisa:" %} {{task.get_status_display}}</p>{% endif %}
+      {% if full_bike_title %}<p class="card-text text-white">{% trans "Naziv kolesa:" %} {{full_bike_title}}</p>{% endif %}
+      {% if email %}<p class="card-text text-white">{% trans "Mail stranke:" %} <a href="mailto:{{email}}" class="text-white">{{email}}</a></p>{% endif %}
+      {% if phone_number %}<p class="card-text text-white">{% trans "Telefonska številka stranke:" %} <a href="tel:{{phone_number}}" class="text-white">{{phone_number}}</a></p>{% endif %}
+      {% if address %}<p class="card-text text-white">{% trans "Naslov stranke:" %} {{address}}</p>{% endif %}
+      {% if task.comment %}<p class="card-text text-white">{% trans "Opomba: " %} {{task.comment}}</p>{% endif %}
+    </div>
+</div>

@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% load static %}
+{% load i18n %}
+{% load crispy_forms_tags %}
+
+{% block navbar_elements %}
+<p class="nav-link px-3">{% trans "Pozdravljen," %} {{request.user.first_name}}!</p>
+<a class="nav-link px-3" href="{% url "registration:logout" %}">{% trans "Odjava" %}</a>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 col-12">
+            <h1 class="my-4 d-flex justify-content-center">{% trans "Podatki o servisu" %}</h1>
+            <div class="card mb-5">
+                <div class="card-body">
+                    {% if object.date %}
+                    <p class="mb-2"><strong>{% trans "Datum:" %}</strong> {{object.date}}</p>
+                    {% endif %}
+                    {% if first_name and last_name %}
+                    <p class="mb-2"><strong>{% trans "Naročnik:" %}</strong> {{first_name}} {{last_name}}</p>
+                    {% endif %}
+                    {% if object.assigned_staff %}
+                    <p class="mb-2"><strong>{% trans "Servis izvaja:" %}</strong> {{object.assigned_staff.first_name}} {{object.assigned_staff.last_name}}</p>
+                    {% endif %}
+                    {% if object.service_number %}
+                    <p class="mb-2"><strong>{% trans "Številka servisa:" %}</strong> {{object.service_number}}</p>
+                    {% endif %}
+                    {% if object.service_type %}
+                    <p class="mb-2"><strong>{% trans "Številka tip servisa:" %}</strong> {{object.get_service_type_display}}</p>
+                    {% endif %}
+                    {% if object.status %}
+                    <p class="mb-2"><strong>{% trans "Status servisa:" %}</strong> {{object.get_status_display}}</p>
+                    {% endif %}
+                    {% if full_bike_title %}
+                    <p class="mb-2"><strong>{% trans "Naziv kolesa:" %}</strong> {{full_bike_title}}</p>
+                    {% endif %}
+                    {% if email %}
+                    <p class="mb-2"><strong>{% trans "Mail stranke:" %}</strong> <a href="mailto:{{email}}">{{email}}</a></p>
+                    {% endif %}
+                    {% if phone_number %}
+                    <p class="mb-2"><strong>{% trans "Telefonska številka stranke:" %}</strong> <a href="tel:{{phone_number}}">{{phone_number}}</a></p>
+                    {% endif %}
+                    {% if address %}
+                    <p class="mb-2"><strong>{% trans "Naslov stranke:" %}</strong> {{address}}</p>
+                    {% endif %}
+                    {% if object.comment %}
+                    <p class="mb-2"><strong>{% trans "Opomba: " %}</strong> {{object.comment}}</p>
+                    {% endif %}
+                </div>
+                {% if user.is_staff %}
+                <div class="card-footer bg-transparent border-0 d-flex justify-content-center">
+                    <a href="{{object.get_update_url}}" class="btn btn-violet text-white">{% trans "Uredi" %}</a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        
+        <div class="col-md-6 col-12">
+            <h1 class="my-4 d-flex justify-content-center">{% trans "Komentarji serviserja" %}</h1>
+            <div class="chat-container border rounded mb-5">
+                <div class="p-3 scrollable-div" style="height: 20rem; overflow: auto;" id="msg-container">
+                    <!-- Mock messages -->
+                    {% include "components/_staff_comments.html" %}
+                    <!-- End of mock messages -->
+                </div>
+                {% if user.is_staff %}
+                    <div class="form-container p-3 d-flex ">
+                        <input type="text" id="new_comment" name="new_comment" class="form-control form-control-lg me-2" placeholder="{% trans "Vnesite svoje sporočilo..." %}">
+                        <button class="btn btn-lg btn-primary" 
+                                type="button" 
+                                hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
+                                hx-post="{% url "api:api_post_comments_and_return_staff_comments" %}" 
+                                hx-include="[name='new_comment']" 
+                                hx-vals='{"service_order_id": "{{object.id}}", "service_order_type": "{{service_order_type}}"}'
+                                hx-target="#msg-container">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

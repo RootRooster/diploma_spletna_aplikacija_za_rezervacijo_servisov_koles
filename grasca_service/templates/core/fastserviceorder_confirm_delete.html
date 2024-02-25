@@ -1,0 +1,18 @@
+{% extends "single_form_base.html" %}
+
+{% load i18n %}
+{% block custom_card %}
+<div class="card">
+    <div class="card-custom-header text-center pt-2 ">
+        {% block card_title %}
+            <h4 class="card-title">{% trans "Ali želite izbrisati zapis?" %}</h4>
+        {% endblock card_title %}
+    </div>
+    <div class="card-body">
+        <form class="d-flex align-items-center justify-content-center" method="post">{% csrf_token %}
+            {{ form }}
+            <input class="btn-violet btn text-white" type="submit" value="Potrdi">
+        </form>
+    </div>
+</div>
+{% endblock custom_card %}

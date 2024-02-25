@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% load i18n %}
+{% load crispy_forms_tags %}
+
+{% block navbar_elements %}
+<p class="nav-link px-3">{% trans "Pozdravljen," %} {{request.user.first_name}}!</p>
+<a class="nav-link px-3" href="{% url "registration:logout" %}">{% trans "Odjava" %}</a>
+{% endblock %}
+
+
+{% block content %}
+<div class="container">
+    <div class="d-flex flex-wrap justify-content-center">
+        {% for bike in bikes %}
+        <a href="{% url "core:bike_history" bike.id %}" class="text-decoration-none">
+            <div class="card shadow m-3" style="width: 18rem;">
+                <img src="{% static 'images/random_bike.jpeg' %}" class="card-img-top" alt="Image of a bicycle">
+                <div class="card-body">
+                    <h5 class="card-title">{{ bike }}</h5>
+                </div>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+</div>
+<div class="container d-flex justify-content-center">
+    <a class="btn btn-violet text-white m-3" href="{% url "core:register_a_new_bike" %}">{% trans "Dodaj bicikl" %}</a>
+</div>
+
+{% endblock %}

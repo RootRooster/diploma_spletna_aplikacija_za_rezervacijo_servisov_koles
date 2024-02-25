@@ -1,0 +1,17 @@
+{% load i18n %}
+<div class="card card-backglow" style="width: 30rem;">
+  <div class="row no-gutters">
+    <div class="col-md-4 d-flex justify-content-center align-items-center mt-md-0 mt-3">
+      <i class="{{ card_icon }} colour-secondary" style="font-size: 4rem;"></i>
+    </div>
+    <div class="col-md-8">
+      <div class="card-body">
+        <h5 class="card-title">{{ card_header }}</h5>
+        <p class="card-text">
+          <a href="#{{ card_id }}" data-bs-toggle="collapse">{% trans "Dodatne informacije..." %}</a>
+        </p>
+        <div id="{{ card_id }}" class="collapse">{{ card_text }}</div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% load i18n %}
+{% load crispy_forms_tags %}
+
+{% block navbar_elements %}
+<p class="nav-link px-3">{% trans "Pozdravljen," %} {{request.user.first_name}}!</p>
+<a class="nav-link px-3" href="{% url "registration:logout" %}">{% trans "Odjava" %}</a>
+{% endblock %}
+
+
+{% block content %}
+<div class="container">
+    {% if my %}{% endif %}
+    <div class="row">
+        <div class="col-4">
+            <h3 class="mb-4 display-7 text-center">{% trans "Moj urnik" %}</h3>
+            <hr class="w-50 mx-auto mb-5 mb-xl-9 border-dark-subtle">
+            <div class="d-flex justify-content-center my-2">
+                <input name="my-cal-selected-date" id="my-cal-selected-date" type="date" hx-get="{% url "api:api_personal_daily_calendar" %}" hx-trigger="change" hx-target="#my-calendar-today">
+            </div>
+            <div id="my-calendar-today" class="scrollable-div bg-white" style="overflow: auto; height: 35rem;">
+                {% include 'components/_service_order_daily_cards.html' %}
+            </div>
+        </div>
+        <div class="col-8">
+            <h3 class="mb-4 display-7 text-center">{% trans "Koledar" %}</h3>
+            <hr class="w-50 mx-auto mb-5 mb-xl-9 border-dark-subtle">
+            <div id="calendar-table">
+                {% include "_calendar_big.html" %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

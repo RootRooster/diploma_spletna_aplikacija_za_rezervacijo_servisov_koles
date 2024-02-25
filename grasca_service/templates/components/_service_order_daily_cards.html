@@ -1,0 +1,6 @@
+{% for task in my_tasks_manual %}
+    {% include 'components/_service_order_card.html' with full_bike_title=task.full_bike_title email=task.email phone_number=task.phone_number address=task.address%}
+{% endfor %}
+{% for task in my_tasks_fast %}
+    {% include 'components/_service_order_card.html' with full_bike_title=task.bike email=task.user.email phone_number=task.user.profile.phone_number address=task.user.profile.address%}
+{% endfor %}
