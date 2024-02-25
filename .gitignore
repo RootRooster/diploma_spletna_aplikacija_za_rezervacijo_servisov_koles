@@ -1,0 +1,5 @@
+.devcontainer
+.vscode
+.DS_Store
+grasca_service/db.sqlite3
+**/__pycache__/
