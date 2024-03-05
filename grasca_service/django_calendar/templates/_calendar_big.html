@@ -78,7 +78,7 @@
                     {% endfor %}
                   {% else %}
                     {% for event in events %}
-                      <a href="{{ event.get_update_url }}" style="text-decoration: none; color: black;">
+                      <a href="{{ event.get_details_or_update_url }}" style="text-decoration: none; color: black;">
                         <div class="rounded mb-1 background-{{ event.event_color }}">
                           {{ event }}
                         </div>

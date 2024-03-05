@@ -33,6 +33,9 @@ class FreeOnlineAppointment(models.Model):
     
     def get_update_url(self) -> str:
         return reverse("core:edit_free_online_appoitment", kwargs={"service_order_id": self.pk})
+    
+    def get_details_or_update_url(self) -> str:
+        return self.get_update_url()
 
 
 class Bike(models.Model):
@@ -120,6 +123,9 @@ class ManualServiceOrder(ServiceOrder):
     address = models.CharField(max_length=100)
     full_bike_title = models.CharField(max_length=100)
     phone_number = PhoneNumberField()
+
+    def get_details_or_update_url(self) -> str:
+        return self.get_details_url()
     
     def get_update_url(self) -> str:
         return reverse("core:edit_manual_service_order", kwargs={"service_order_id": self.pk})
@@ -134,6 +140,9 @@ class ManualServiceOrder(ServiceOrder):
 class FastServiceOrder(ServiceOrder):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     bike = models.ForeignKey(Bike, on_delete=models.CASCADE)
+
+    def get_details_or_update_url(self) -> str:
+        return self.get_details_url()
     
     def get_update_url(self) -> str:
         return reverse("core:edit_fast_service_order", kwargs={"service_order_id": self.pk})

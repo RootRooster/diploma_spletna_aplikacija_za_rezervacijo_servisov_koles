@@ -2,6 +2,7 @@ from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.utils.translation import gettext as _
+from django.contrib import messages
 
 from django_calendar.helpers import create_calendar_data, get_current_month_and_year
 from core.models import ManualServiceOrder
@@ -69,6 +70,7 @@ def home_page_view(request):
                 comment=form.cleaned_data["comment"]
             )
             form.cleaned_data["online_appointment"].delete()
+            messages.success(request, _("Naročilo uspešno ustvarjeno."))
     if request.user.is_authenticated:
         if request.user.is_staff:
             return redirect(reverse("home:staff_home_page"))

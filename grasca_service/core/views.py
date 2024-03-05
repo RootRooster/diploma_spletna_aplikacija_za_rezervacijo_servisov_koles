@@ -155,7 +155,8 @@ class FastServiceOrderDetailsView(RegularUserRequiredMixin, DetailView):
         context_data["address"] = self.object.user.profile.address
         context_data["user"] = self.request.user
         context_data["service_order_type"] = "fast"
-        context_data["comments"] = FastServiceOrderStaffComment.objects.all()
+        context_data["comments"] = FastServiceOrderStaffComment.objects.filter(
+            service_order_id=self.kwargs[self.pk_url_kwarg])
         return context_data
     
     def test_func(self) -> bool | None:

@@ -1,6 +1,6 @@
 {% load i18n %}
 <div class="card mb-3" style="background-color: {{task.event_color}}">
-    <div class="card-header text-white"><a href="{{task.get_details_url}}">{{ task }}</a></div>
+    <div class="card-header text-white">{{ task }}<a class="btn btn-violet text-white mx-5"href="{{task.get_details_url}}">Poglej</a></div>
     <div class="card-body">
       {% if task.service_number %}<p class="card-text text-white">{% trans "Številka servisa:" %} {{task.service_number}}</p>{% endif %}
       {% if task.service_type %}<p class="card-text text-white">{% trans "Številka tip servisa:" %} {{task.get_service_type_display}}</p>{% endif %}
