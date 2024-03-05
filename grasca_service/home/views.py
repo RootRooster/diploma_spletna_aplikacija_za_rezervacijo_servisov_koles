@@ -39,16 +39,16 @@ def home_page_view(request):
             "answer": _("Servis traja od 1 do 3 dni, odvisno od obsega dela.")
         },
         {
-            "question": _("Kako izberem pravo vrsto servisa?"),
-            "answer": _("Izberi vrsto servisa glede na to, kaj potrebuje tvoje kolo. Če nisi prepričan, izberi splošni servis.")
+            "question": _("Kakšne so cene servisov?"),
+            "answer": _("Cene servisov so odvisne od vrste servisa in obsega dela. Prvi servis je brezplačen. Mali servis in veliki servis sta odvisna od količine dela in potrebnih rezervnih delov. Približno pa se cena malega servisa giblje med 30 in 50 evrov, cena velikega servisa pa med 100-150 evrov. Natančno ceno servisa ti sporočimo po pregledu kolesa oziroma sproti, če se med servisom najde dodatna dela.")
         },
         {
-            "question": _("Kako dolgo traja servis?"),
-            "answer": _("Servis traja od 1 do 3 dni, odvisno od obsega dela."),
+            "question": _("Kaj potrebujem imeti sabo na dan servisa?"),
+            "answer": _("Na dan servisa potrebujete le kolo in osebni dokument. Vse ostalo poskrbimo mi."),
         },
         {
             "question": _("Kako izberem pravo vrsto servisa?"),
-            "answer": _("Izberi vrsto servisa glede na to, kaj potrebuje tvoje kolo. Če nisi prepričan, izberi splošni servis.")
+            "answer": _("Izberi vrsto servisa glede na to, kaj potrebuje tvoje kolo. Če kolo še ni bilo na servisu, je novo in kupljeno pri nas, izberi prvi servis. Če je na kolesu potrebna menjava vzmetnice, nastavitev menjalnika ali zavor, izberi mali servis. Če je potrebno kolo popolnoma razstaviti, očistiti in zamenjati vse obrabljene dele, izberi veliki servis.")
         }
     ]
     month, year = get_current_month_and_year()

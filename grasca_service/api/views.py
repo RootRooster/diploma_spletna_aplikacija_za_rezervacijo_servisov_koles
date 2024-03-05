@@ -49,7 +49,6 @@ def post_comments_and_return_staff_comments(request):
     - service_order_id: str (1-...)
     - comment: str
     """
-    print("JUUUSH")
     if not request.user.is_staff:
         return HttpResponseForbidden()
     try:
@@ -63,16 +62,14 @@ def post_comments_and_return_staff_comments(request):
                 user=request.user,
                 comment=new_comment
             )
-            comments = ManualServiceOrderStaffComment.objects.all()
-            pass
+            comments = ManualServiceOrderStaffComment.objects.filter(service_order_id=service_order_id)
         elif request.POST.get("service_order_type") == "fast":
             FastServiceOrderStaffComment.objects.create(
                 service_order_id=service_order_id,
                 user=request.user,
                 comment=new_comment
             )
-            comments = FastServiceOrderStaffComment.objects.all()
-            pass
+            comments = FastServiceOrderStaffComment.objects.filter(service_order_id=service_order_id)
         return render(request, "components/_staff_comments.html", locals())
     except:
         return HttpResponseBadRequest()

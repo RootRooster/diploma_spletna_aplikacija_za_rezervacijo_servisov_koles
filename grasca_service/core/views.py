@@ -179,5 +179,6 @@ class ManualServiceOrderDetailsView(StaffRequiredSuccessMessageMixin, DetailView
         context_data["address"] = self.object.address
         context_data["user"] = self.request.user
         context_data["service_order_type"] = "manual"
-        context_data["comments"] = ManualServiceOrderStaffComment.objects.all()
+        context_data["comments"] = ManualServiceOrderStaffComment.objects.filter(
+            service_order_id=self.kwargs[self.pk_url_kwarg])
         return context_data
