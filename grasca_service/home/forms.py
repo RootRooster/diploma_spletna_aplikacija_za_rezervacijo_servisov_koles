@@ -26,7 +26,7 @@ class QuickServiceForm(forms.Form):
         # this ensures that the users don't see the duplicate termins
         appointments = FreeOnlineAppointment.objects.values('date').annotate(min_id=Min('id'))
         appointment_ids = [appointment['min_id'] for appointment in appointments]
-        unique_appointments = FreeOnlineAppointment.objects.filter(id__in=appointment_ids).order_by('date')
+        unique_appointments = FreeOnlineAppointment.objects.filter(id__in=appointment_ids, vip_reserved=False).order_by('date')
         self.fields["online_appointment"].queryset = unique_appointments
         
         if not self.fields["online_appointment"].queryset.exists():

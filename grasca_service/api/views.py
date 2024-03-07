@@ -25,7 +25,7 @@ def create_new_free_appointment(request):
     vip = True if int(request.GET.get('vip')) == 1 else False
     date_object = date(year, month, day)
     FreeOnlineAppointment.objects.create(date=date_object, vip_reserved=vip)
-    calendar_data = create_calendar_data(month, year)
+    calendar_data = create_calendar_data(month, year, True)
     return render(request, "_calendar_big.html", locals())
 
 @login_required

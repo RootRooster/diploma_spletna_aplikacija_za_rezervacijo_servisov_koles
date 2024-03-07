@@ -58,7 +58,7 @@ def get_slovenian_month_name(month):
     return slovenian_month_names[month]
 
 
-def get_appointments_and_service_orders(day, year, month):
+def get_appointments_and_service_orders(day, year, month, show_vip=False):
     """Return appointments and service orders for a given day.
     
     Args:
@@ -69,18 +69,22 @@ def get_appointments_and_service_orders(day, year, month):
     Returns:
         dict: Appointments and service orders for a given day. It also returns the day itself and a boolean that tells if the day is today.
     """
+    if show_vip:
+        foa = FreeOnlineAppointment.objects.filter(date=date(year, month, day))
+    else:
+        foa = FreeOnlineAppointment.objects.filter(date=date(year, month, day), vip_reserved=False)
     return {
         "day": day,
         "is_today": day == timezone.now().day and month == timezone.now().month and year == timezone.now().year,
         "events": [
-            FreeOnlineAppointment.objects.filter(date=date(year, month, day)),
+            foa,
             FastServiceOrder.objects.filter(date=date(year, month, day)),
             ManualServiceOrder.objects.filter(date=date(year, month, day))   
         ]
     }
 
 
-def create_calendar_data(month, year):
+def create_calendar_data(month, year, vip):
     """Return calendar data for a given month and year.
     
     Args:
@@ -108,7 +112,7 @@ def create_calendar_data(month, year):
         if len(calendar_data_days) > 6:
             calendar_data_week.append(calendar_data_days)
             calendar_data_days = []
-        calendar_data_days.append(get_appointments_and_service_orders(day, year, month))
+        calendar_data_days.append(get_appointments_and_service_orders(day, year, month, vip))
         day += 1
     while(len(calendar_data_days) < 7):
         calendar_data_days.append(None)

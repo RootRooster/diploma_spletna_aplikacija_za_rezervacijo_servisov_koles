@@ -53,7 +53,7 @@ def home_page_view(request):
         }
     ]
     month, year = get_current_month_and_year()
-    calendar_data = create_calendar_data(month, year)
+    calendar_data = create_calendar_data(month, year, False)
     form = QuickServiceForm()
     if request.method == "POST":
         form = QuickServiceForm(request.POST)
@@ -84,7 +84,7 @@ def staff_home_page_view(request):
     if not request.user.is_staff:
         return redirect(reverse("home:profile_home_page"))
     month, year = get_current_month_and_year()
-    calendar_data = create_calendar_data(month, year)
+    calendar_data = create_calendar_data(month, year, True)
     my_tasks_manual, my_tasks_fast = get_service_orders_for_user(request.user)
     return render(request, "home/staff_home_page.html", locals())
 
@@ -94,6 +94,6 @@ def profile_home_page_view(request):
     if request.user.is_staff:
         return redirect(reverse("home:staff_home_page"))
     month, year = get_current_month_and_year()
-    calendar_data = create_calendar_data(month, year)
+    calendar_data = create_calendar_data(month, year, True)
     bikes = request.user.bike_set.all()
     return render(request, "home/profile_home_page.html", locals())

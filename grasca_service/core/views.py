@@ -123,7 +123,7 @@ class FastServiceOrderReservationView(RegularUserRequiredSuccessMessageMixin, Fo
     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
         context_data = super().get_context_data(**kwargs)
         month, year = get_current_month_and_year()
-        calendar_data = create_calendar_data(month, year)
+        calendar_data = create_calendar_data(month, year, True)
         context_data["month"] = month
         context_data["year"] = year
         context_data["calendar_data"] = calendar_data
