@@ -61,14 +61,12 @@
             <h1 class="my-4 d-flex justify-content-center">{% trans "Komentarji serviserja" %}</h1>
             <div class="chat-container border rounded mb-5">
                 <div class="p-3 scrollable-div" style="height: 20rem; overflow: auto;" id="msg-container">
-                    <!-- Mock messages -->
                     {% include "components/_staff_comments.html" %}
-                    <!-- End of mock messages -->
                 </div>
                 {% if user.is_staff %}
                     <div class="form-container p-3 d-flex ">
                         <input type="text" id="new_comment" name="new_comment" class="form-control form-control-lg me-2" placeholder="{% trans "Vnesite svoje sporočilo..." %}">
-                        <button class="btn btn-lg btn-primary" 
+                        <button id="submit_button" class="btn btn-lg btn-primary" 
                                 type="button" 
                                 hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
                                 hx-post="{% url "api:api_post_comments_and_return_staff_comments" %}" 
@@ -86,5 +84,28 @@
 {% endblock %}
 
 {% if user.is_staff %}
-
+{% block scripts %}
+{{ block.super }}
+<script>
+    document.getElementById('new_comment').addEventListener('keypress', function(event) {
+        // Check if the Enter key was pressed
+        if (event.key === 'Enter') {
+            // Prevent the default action to avoid submitting the form or any other unwanted behavior
+            event.preventDefault();
+            // Trigger the button click
+            document.getElementById('submit_button').click();
+        }
+    });
+    document.getElementById('submit_button').addEventListener('click', function() {
+        // Add event listener to clear the input field after htmx completes the request
+        this.addEventListener('htmx:afterRequest', function() {
+            document.getElementById('new_comment').value = ''; // Clears the input field
+        }, {once: true}); // Use {once: true} to ensure the listener is removed after executing once
+    });
+    document.getElementById('msg-container').addEventListener('htmx:afterSwap', function() {
+        // Scroll the msg-container to the bottom
+        this.scrollTop = this.scrollHeight;
+    });
+</script>
+{% endblock %}
 {% endif %}
